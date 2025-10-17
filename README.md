@@ -1,5 +1,9 @@
 # AsyncRedisCacheStore
 
+[![Test](https://github.com/darkamenosa/async_redis_cache_store/actions/workflows/main.yml/badge.svg)](https://github.com/darkamenosa/async_redis_cache_store/actions/workflows/main.yml)
+[![Ruby Style Guide](https://img.shields.io/badge/code_style-rubocop-brightgreen.svg)](https://github.com/rubocop/rubocop)
+[![Gem Version](https://badge.fury.io/rb/async_redis_cache_store.svg)](https://badge.fury.io/rb/async_redis_cache_store)
+
 Fiber-friendly, high-throughput Redis cache store for Rails/ActiveSupport built on [async-redis](https://github.com/socketry/async-redis).
 
 ## Features
