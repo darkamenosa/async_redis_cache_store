@@ -1,0 +1,9 @@
+inherit_gem: { rubocop-rails-omakase: rubocop.yml }
+
+# Restore strict 2‑space indentation enforcement
+Layout/IndentationConsistency:
+  Enabled: true
+
+Layout/IndentationWidth:
+  Enabled: true
+  Width: 2

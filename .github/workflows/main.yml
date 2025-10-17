@@ -1,0 +1,40 @@
+name: Ruby
+
+on:
+  push:
+    branches:
+      - master
+
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Ruby ${{ matrix.ruby }}
+    services:
+      redis:
+        image: redis:7
+        ports: ["6379:6379"]
+        options: >-
+          --health-cmd "redis-cli ping || exit 1"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 20
+    strategy:
+      matrix:
+        ruby:
+          - '3.4.6'
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: ${{ matrix.ruby }}
+          bundler-cache: true
+      - name: Run Sus specs
+        env:
+          REDIS_URL: redis://127.0.0.1:6379/0
+        run: bundle exec sus
