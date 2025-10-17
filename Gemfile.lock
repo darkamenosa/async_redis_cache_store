@@ -2,7 +2,7 @@ PATH
   remote: .
   specs:
     async_redis_cache_store (0.1.0)
-      activesupport (>= 7.0)
+      activesupport (>= 6.0)
       async (>= 2.0)
       async-redis (>= 0.13.0)
 
