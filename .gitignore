@@ -6,3 +6,10 @@
 /pkg/
 /spec/reports/
 /tmp/
+/agents.md
+/.context
+/gems.locked
+/.covered.db
+/external
+/.ruby-lsp/
+.DS_Store

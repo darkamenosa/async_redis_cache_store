@@ -8,12 +8,15 @@ permissions:
 jobs:
   check:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v4
-      - uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: ruby
-          bundler-cache: true
-      - name: Run RuboCop
-        run: bundle exec rubocop
+    - uses: actions/checkout@v4
+    - uses: ruby/setup-ruby@v1
+      with:
+        ruby-version: ruby
+        bundler-cache: true
+
+    - name: Run RuboCop
+      timeout-minutes: 10
+      run: bundle exec rubocop
 

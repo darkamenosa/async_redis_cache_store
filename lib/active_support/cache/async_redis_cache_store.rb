@@ -244,7 +244,7 @@ module ActiveSupport
           write_serialized_entry(key, serialize_entry(entry, raw: raw, **options), raw: raw, **options)
         end
 
-      def write_serialized_entry(key, payload, raw: false, unless_exist: false, expires_in: nil, race_condition_ttl: nil, pipeline: nil, **options)
+        def write_serialized_entry(key, payload, raw: false, unless_exist: false, expires_in: nil, race_condition_ttl: nil, pipeline: nil, **options)
           if race_condition_ttl && expires_in && expires_in > 0 && !raw
             expires_in += 5.minutes
           end
@@ -255,23 +255,23 @@ module ActiveSupport
             modifiers[:px] = (1000 * expires_in.to_f).ceil if expires_in
           end
 
-            if pipeline
-              # async-redis pipeline doesn't accept keyword modifiers for SET; build args:
-              args = ["SET", key, payload]
-              args << "NX" if unless_exist
-              args.concat(["PX", (1000 * expires_in.to_f).ceil]) if expires_in
-              pipeline.call(*args)
-            else
-              failsafe :write_entry, returning: nil do
-                call_redis do |c|
-                  args = ["SET", key, payload]
-                  args << "NX" if unless_exist
-                  args.concat(["PX", (1000 * expires_in.to_f).ceil]) if expires_in
-                  !!c.call(*args)
-                end
+          if pipeline
+            # async-redis pipeline doesn't accept keyword modifiers for SET; build args:
+            args = [ "SET", key, payload ]
+            args << "NX" if unless_exist
+            args.concat([ "PX", (1000 * expires_in.to_f).ceil ]) if expires_in
+            pipeline.call(*args)
+          else
+            failsafe :write_entry, returning: nil do
+              call_redis do |c|
+                args = [ "SET", key, payload ]
+                args << "NX" if unless_exist
+                args.concat([ "PX", (1000 * expires_in.to_f).ceil ]) if expires_in
+                !!c.call(*args)
               end
             end
-        end
+          end
+          end
 
         # Raw values are written as strings; non-raw use base serializer.
         def serialize_entry(entry, raw: false, **options)
@@ -402,12 +402,12 @@ module ActiveSupport
             end
           rescue => e
             attempts -= 1
-              if attempts > 0
-                Async::Task.current.sleep(0.05)
-                retry
-              else
-                raise e
-              end
+            if attempts > 0
+              Async::Task.current.sleep(0.05)
+              retry
+            else
+              raise e
+            end
           end
         end
 
